@@ -26,5 +26,4 @@ pub struct NftsResponse {
     pub(crate) isWhitelistedStorage: bool,
     pub(crate) tags: Vec<String>,
     pub(crate) ticker: String,
-    pub(crate) isNsfw: bool,
 }
