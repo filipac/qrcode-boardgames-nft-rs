@@ -1,6 +1,7 @@
 use serde::Deserialize;
 
 #[derive(Debug, Deserialize)]
+#[allow(dead_code, non_snake_case)]
 pub struct Media {
     pub(crate) url: String,
     pub(crate) originalUrl: String,
@@ -10,6 +11,7 @@ pub struct Media {
 }
 
 #[derive(Debug, Deserialize)]
+#[allow(dead_code, non_snake_case)]
 pub struct NftsResponse {
     pub(crate) identifier: String,
     pub(crate) collection: String,
