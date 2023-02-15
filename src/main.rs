@@ -21,6 +21,11 @@ fn main() -> Result<(), ()> {
 
     html.push_str("<div style='display: grid; grid-template-columns: repeat(5, 1fr); grid-gap: 10px;'>");
     append_each_nft(&wallet, &mut html);
+    // let mut manual: Vec<&str> = Vec::new();
+    // manual.push("BOARD-25bcd6-40");
+    // append_manual(manual, &mut html);
+
+
     html.push_str("</div>");
     append_style(&mut html);
 
@@ -43,11 +48,23 @@ fn append_each_nft(wallet: &&String, html: &mut String) {
     let response_full = get_response(&wallet);
     response_full.unwrap().iter().for_each(|x| {
         let url_spotlight = format!("https://xspotlight.com/nfts/{}", x.identifier);
-        let result: String = qrcode_generator::to_svg_to_string(url_spotlight, QrCodeEcc::Low, 1024, None::<&str>).unwrap();
-        let result = result.replace("<?xml version=\"1.0\" encoding=\"utf-8\"?>", "");
-        let result = result.replace("width=\"1024\" height=\"1024\"", "viewBox=\"0 0 1024 1024\"");
 
-        html.push_str(&format!("<div class='svgroot'>{}</div>", &result));
+        append_url_svg(html, url_spotlight);
+    });
+}
+
+fn append_url_svg(html: &mut String, url_spotlight: String) {
+    let result: String = qrcode_generator::to_svg_to_string(url_spotlight, QrCodeEcc::Low, 1024, None::<&str>).unwrap();
+    let result = result.replace("<?xml version=\"1.0\" encoding=\"utf-8\"?>", "");
+    let result = result.replace("width=\"1024\" height=\"1024\"", "viewBox=\"0 0 1024 1024\"");
+
+    html.push_str(&format!("<div class='svgroot'>{}</div>", &result));
+}
+
+fn append_manual(identifier: Vec<&str>, html: &mut String) {
+    identifier.iter().for_each(|x| {
+        let url_spotlight = format!("https://xspotlight.com/nfts/{}", x);
+        append_url_svg(html, url_spotlight)
     });
 }
 
